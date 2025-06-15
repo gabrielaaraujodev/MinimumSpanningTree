@@ -1,0 +1,17 @@
+Origem,Destino,Peso
+A,B,2
+A,C,3
+A,D,3
+B,E,4
+B,F,3
+C,D,5
+C,G,7
+D,G,6
+D,H,4
+E,F,2
+F,H,5
+G,H,1
+H,I,3
+G,I,8
+E,I,9
+F,I,7

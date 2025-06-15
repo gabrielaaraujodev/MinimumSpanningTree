@@ -105,10 +105,66 @@ public class Grafo : IManipuladorGrafo
             Console.WriteLine($"{aresta.Origem.Nome} --{aresta.Peso}-- {aresta.Destino.Nome}");
         }
     }
+
+    public void ArvoreGeradoraMimina(string noInicial)
+    {
+        List<Aresta> agm = new List<Aresta>();
+        List<string> nosVisitados = new List<string>();
+        bool continuar;
+
+        do
+        {
+
+            int pesoAtual = int.MaxValue;
+            continuar = false;
+
+            Aresta arestaAtual = null;
+            nosVisitados.Add(noInicial);
+            foreach (Aresta aresta in arestas)
+            {
+                bool origemVisitada = nosVisitados.Contains(aresta.Origem.Nome);
+                bool destinoVisitado = nosVisitados.Contains(aresta.Destino.Nome);
+
+                if ((origemVisitada && !destinoVisitado) || (destinoVisitado && !origemVisitada))
+                    if (pesoAtual > aresta.Peso)
+                    {
+                        pesoAtual = aresta.Peso;
+                        arestaAtual = new Aresta(aresta.Origem, aresta.Destino, pesoAtual);
+                        agm.Add(arestaAtual);
+                        continuar = true;
+                    }           
+            }
+
+            if(arestaAtual.Origem.Nome != noInicial && arestaAtual != null)
+            {
+                noInicial = arestaAtual.Origem.Nome;
+            } 
+
+            if(arestaAtual.Destino.Nome != noInicial && arestaAtual != null)
+            {
+                noInicial = arestaAtual.Destino.Nome;
+            }
+
+        } while (continuar);
+    }
 }
 
 public interface IManipuladorGrafo
 {
     public void LerArquivoDoGrafo(string caminhoArquivo);
     public void DesenharGrafo();
+
+    public void ArvoreGeradoraMimina(string noInicial);
+}
+
+class Program
+{
+    static void Main (string[] args)
+    {
+        Grafo grafo = new Grafo();
+
+        grafo.LerArquivoDoGrafo("C:\\Users\\Gabriel Araujo (Dev)\\source\\repos\\AGM\\AGM\\grafo.txt");
+
+        grafo.DesenharGrafo();
+    }
 }
